@@ -37,7 +37,10 @@ Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 #include <time.h>
 #include "ds1820.h"
 
-
+/*The One Wire Data Line is Conected to GPIO4 (P1.7)
+ * 
+ * http://wiki.laub-home.de/wiki/Raspberry_Pi_Sensoren_auslesen#Anschlie.C3.9Fen_des_Temperatur_Sensors
+ */
 
 void get_dat_clock()
 {

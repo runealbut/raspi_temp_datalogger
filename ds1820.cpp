@@ -33,14 +33,14 @@ Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 
 #include "ds1820.h"
 
-string ds1820::pfad_devices = "/sys/bus/w1/devices";
+//string  ds1820::pfad_devices = "/sys/bus/w1/devices";
 
 
-float ds1820::sensor_read(string *sensor_pfad)      
+float ds1820::sensor_read(char *sensor_pfad)      
 {
   char c;
   float temperatur;
-  string puffer, string_temperatur;
+  char Buffer[ZEILENLAENGE], string_temperatur[10];
   FILE *DS18S20;
  
   //DS18S20 = fopen("/sys/bus/w1/devices/10-0008021dad2e/w1_slave","r");
@@ -51,7 +51,7 @@ float ds1820::sensor_read(string *sensor_pfad)
     printf("\nFehler beim Versuch den Sensor auszulesen.\n ");
     return EXIT_FAILURE;
   }
-  while(fgets(puffer,ZEILENLAENGE, DS18S20))
+  while(fgets(Buffer,ZEILENLAENGE, DS18S20))
   {
     int i=0;
     //den zurückgegeben String durch suchen auf die Temperatur
@@ -60,18 +60,18 @@ float ds1820::sensor_read(string *sensor_pfad)
     {
       i++;
       //printf("i= %d\n",i);
-      if(puffer[i]=='t')
+      if(Buffer[i]=='t')
       {
 	int j;
 	int n=i+2;
 	for (j=0;j<10;j++)
 	{
-	  string_temperatur[j]=puffer[n+j];
+	  string_temperatur[j]=Buffer[n+j];
 	}
 	break;//printf("temp: %s",string_temperatur);
       }
     }
-    while((puffer[i]!='\n')||puffer[i]=='t');
+    while((Buffer[i]!='\n')||Buffer[i]=='t');
     //printf("ende i= %d\n",i);
 
   }
@@ -82,7 +82,7 @@ float ds1820::sensor_read(string *sensor_pfad)
   return temperatur;
 }
 
-int ds1820::open_directory()
+int ds1820::open_directory(char *pfad_devices)
 {
   if(( dir=opendir(pfad_devices))== NULL)
    {
@@ -91,7 +91,7 @@ int ds1820::open_directory()
    }
 }
 
-int ds1820::close_directory()
+int ds1820::close_directory(char *pfad_devices)
 {
    if(closedir(dir) == -1)
    {
@@ -101,31 +101,58 @@ int ds1820::close_directory()
    return 0;
 }
 
-int ds1820::get_directory_name(string *pfad,int *sensor_number)
-{
-  int sensor_count=0;// How Many Sensor on the Bus
-  string buffer;
 
-      
-  while((dirpointer=readdir(dir)) != NULL)
+int   ds1820::get_howmanny_sensors(char *pfad_devices)
+{
+    int sensor_count=1;// How Many Sensor on the Bus
+    
+    open_directory(pfad_devices);
+    
+    while((dirpointer=readdir(dir)) != NULL)
   {
 	if((*dirpointer).d_name[2]=='-')
 	{
-	  //printf("\t %d %s\n",i,(*dirpointer).d_name);
+	  //printf("\t %d %s\n",sensor_count,(*dirpointer).d_name);
 	  //printf("\t\t treffer\n");
 	  sensor_count++;
-	  if(sensor_count == sensor_number)
-	  {
-	    sprintf(buffer,"%s/%s/w1_slave",pfad_devices,(*dirpointer).d_name);
-	    *pfad=buffer;
-	    return 0;
-	  }
-	  //printf("Temperatursensor %d: %f\n",i,sensor_lesen(buffer));
+
 	  
 	}
 	
 
    }
-  
+  close_directory(pfad_devices);
   return sensor_count;
+}
+
+float ds1820::get_sensor_value  (char *pfad_devices,int sensor_number)
+{
+  int sensor_count=1;// How Many Sensor on the Bus
+  char buffer[ZEILENLAENGE];
+  
+  open_directory(pfad_devices);
+      
+  while((dirpointer=readdir(dir)) != NULL)
+  {
+	if((*dirpointer).d_name[2]=='-')
+	{
+	  //printf("\t %d %s\n",sensor_count,(*dirpointer).d_name);
+	  //printf("\t\t treffer\n");
+	  //sensor_count++;
+	  //printf("%d %d\n",sensor_count,sensor_number);
+	  if(sensor_count == sensor_number)
+	  {
+	    sprintf(buffer,"%s/%s/w1_slave",pfad_devices,(*dirpointer).d_name);
+	    //printf("Temperatursensor %d: %f\n",sensor_count,sensor_read(buffer));
+	    close_directory(pfad_devices);
+	    return sensor_read(buffer) ;
+	  }
+	  sensor_count++;
+	  
+	}
+	
+
+   }
+  close_directory(pfad_devices);
+  return 666;
 }

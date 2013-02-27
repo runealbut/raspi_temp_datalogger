@@ -44,8 +44,26 @@ Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 int main()
 {
     ds1820 ds;
+    char pfad_devices[]= "/sys/bus/w1/devices";
+    int i,sensor_count;
     
+
+    sensor_count=ds.get_howmanny_sensors(pfad_devices);
+        
+    printf("Temperatur auslesen\n\n");
+    for( i=1;i<sensor_count;i++)
+    {
+      printf("Sensor %d: \t",i);
+    }
+    printf(" \n");
     
+
+    for( i=1;i<sensor_count;i++)
+    {
+    printf("%f \t",ds.get_sensor_value(pfad_devices,i));
+    }
+    printf(" \n");
+
     
     
     

@@ -39,6 +39,7 @@ Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 //#include </usr/include/sys/types.h>
 #include <dirent.h>
 #include <stdio.h>
+#include <iostream>
 #include <stdlib.h>
 #include <string.h>
 
@@ -54,14 +55,19 @@ class ds1820
 
     struct dirent *dirpointer;
     DIR *dir;
-    string pfad_devices;
-  
+    //static string pfad_device;
+    //static char pfad_devices[30];
+    //static char pfad_devices[]= "/sys/bus/w1/devices";
+    float sensor_read              (char *sensor_pfad);
+    int   open_directory           (char *pfad_devices);
+    int   close_directory          (char *pfad_devices);
   
   public:
-    float sensor_read              (string *sensor_pfad);
-    int   open_directory           (void);
-    int   close_directory          (void);
-    int   get_directory_name       (string *pfad, int *sensor_number);
+    //static string pfad_device;
+
+
+    int   get_howmanny_sensors	   (char *pfad_devices);
+    float get_sensor_value  (char *pfad_devices,int sensor_number);
   
 };
 

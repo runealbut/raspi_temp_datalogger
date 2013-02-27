@@ -34,16 +34,27 @@ Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 
 #include <iostream>
 #include <string>
+#include <time.h>
 #include "ds1820.h"
 
 
 
-
+void get_dat_clock()
+{
+            struct tm *tmp;
+    time_t s;
+        s = time(NULL);
+        tmp = localtime(&s);
+        printf("Uhrzeit: %d:%0d:%d\n",tmp->tm_hour,tmp->tm_min,tmp->tm_sec);
+        printf("Datum: %d.%d.%d\n", tmp->tm_mday, tmp->tm_mon+1, tmp->tm_mon+1, tmp->tm_year+1900);
+}
 
 
 int main()
 {
     ds1820 ds;
+    struct tm *tmp;
+    time_t s;
     char pfad_devices[]= "/sys/bus/w1/devices";
     int i,sensor_count;
     
@@ -51,20 +62,34 @@ int main()
     sensor_count=ds.get_howmanny_sensors(pfad_devices);
         
     printf("Temperatur auslesen\n\n");
+    
+    printf("Datum \t         Uhrzeit\t");
     for( i=1;i<sensor_count;i++)
     {
       printf("Sensor %d: \t",i);
     }
     printf(" \n");
     
-
-    for( i=1;i<sensor_count;i++)
+    while(1)
     {
-    printf("%f \t",ds.get_sensor_value(pfad_devices,i));
-    }
-    printf(" \n");
+      s = time(NULL);
+      tmp = localtime(&s);
+      printf("%.2d.%.2d.%d \t %.2d:%.2d:%.2d \t", tmp->tm_mday, tmp->tm_mon+1, tmp->tm_year+1900,tmp->tm_hour,tmp->tm_min,tmp->tm_sec);
+    
+    
 
+      for( i=1;i<sensor_count;i++)
+      {
+	printf("%2.3f \t",ds.get_sensor_value(pfad_devices,i));
+      }
+      printf(" \n");
+    }
     
     
     
 }
+
+
+
+
+

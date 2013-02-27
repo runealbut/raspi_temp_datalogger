@@ -31,40 +31,22 @@ Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
  
 
  */ 
-#ifndef DS1820_H_INCLUDED
-#define DS1820_H_INCLUDED
 
-#include <sys/types.h>
-#include <sys/stat.h>
-//#include </usr/include/sys/types.h>
-#include <dirent.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <iostream>
+#include <string>
+#include "ds1820.h"
 
 
-#define ZEILENLAENGE 80
-
-    using namespace std;
 
 
-class ds1820
+
+
+int main()
 {
-  private:
-
-    struct dirent *dirpointer;
-    DIR *dir;
-    string pfad_devices;
-  
-  
-  public:
-    float sensor_read              (string *sensor_pfad);
-    int   open_directory           (void);
-    int   close_directory          (void);
-    int   get_directory_name       (string *pfad, int *sensor_number);
-  
-};
-
-
-
-#endif
+    ds1820 ds;
+    
+    
+    
+    
+    
+}

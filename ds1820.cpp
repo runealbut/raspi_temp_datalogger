@@ -33,17 +33,18 @@ Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
 
 #include "ds1820.h"
 
+string ds1820::pfad_devices = "/sys/bus/w1/devices";
 
 
-float ds1820::sensor_read(char *pfad)      
+float ds1820::sensor_read(string *sensor_pfad)      
 {
   char c;
   float temperatur;
-  char puffer[ZEILENLAENGE], string_temperatur[10];
+  string puffer, string_temperatur;
   FILE *DS18S20;
  
   //DS18S20 = fopen("/sys/bus/w1/devices/10-0008021dad2e/w1_slave","r");
-  DS18S20 = fopen(pfad,"r");
+  DS18S20 = fopen(sensor_pfad,"r");
 
   if(DS18S20 == NULL) 
   {
@@ -83,7 +84,7 @@ float ds1820::sensor_read(char *pfad)
 
 int ds1820::open_directory()
 {
-  if(( dir=opendir(pfad))== NULL)
+  if(( dir=opendir(pfad_devices))== NULL)
    {
       printf("Fehler bei opendir ...\n");
       return EXIT_FAILURE;
@@ -94,18 +95,17 @@ int ds1820::close_directory()
 {
    if(closedir(dir) == -1)
    {
-      printf("Fehler beim Schließen von %s\n", pfad[0]);
+      printf("Fehler beim Schließen von %s\n", pfad_devices);
    }
    
    return 0;
 }
 
-int ds1820::get_directory_name(char *pfad, char *buffer,int *sensor_number)
+int ds1820::get_directory_name(string *pfad,int *sensor_number)
 {
   int sensor_count=0;// How Many Sensor on the Bus
-  char buffer[ZEILENLAENGE];
-  struct dirent *dirpointer;
-  DIR *dir;
+  string buffer;
+
       
   while((dirpointer=readdir(dir)) != NULL)
   {
@@ -116,7 +116,8 @@ int ds1820::get_directory_name(char *pfad, char *buffer,int *sensor_number)
 	  sensor_count++;
 	  if(sensor_count == sensor_number)
 	  {
-	    sprintf(buffer,"%s/%s/w1_slave",pfad,(*dirpointer).d_name);
+	    sprintf(buffer,"%s/%s/w1_slave",pfad_devices,(*dirpointer).d_name);
+	    *pfad=buffer;
 	    return 0;
 	  }
 	  //printf("Temperatursensor %d: %f\n",i,sensor_lesen(buffer));

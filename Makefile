@@ -10,7 +10,7 @@ OBJ= main.o ds1820.o
 
 
 prog: $(OBJ)
-	$(CC) $(CFLAGS) -o prog $(OBJ) $(LDFLAGS)
+	$(CC) $(CFLAGS) -o raspi_temp_datalogger   $(OBJ) $(LDFLAGS)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $<

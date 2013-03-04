@@ -2,13 +2,19 @@ raspi_temp_datalogger
 =====================
 This is an lite temperature datalogger for the Raspberrypi, it works with the Dalla ds1820 onwire Sensors.
 
+Hardware
+--------------
+The One Wire Data Line is Conected to GPIO4 (P1.7).
+Data is conected to VCC with an Pullup-Resistor.
+
+
 Configuration of the OneWire KernelModul
 --------------
 
 Aktivate the Modul:
 ```
-pi@raspi:~$ sudo modprobe w1_gpio
-pi@raspi:~$ sudo modprobe w1_therm
+   pi@raspi:~$ sudo modprobe w1_gpio
+   pi@raspi:~$ sudo modprobe w1_therm
 ```
 Look if the Modul ist already loaded:
 ```
@@ -37,7 +43,7 @@ Look if the Modul ist already loaded:
    10-0008021dad2e  w1_bus_master1
    pi@raspberrypi ~ $
  ```
- The Directory which starts with the "10-" is the Sensor.
+ The Directory which starts with  "10-" is the Sensor.
  
  Read One Sensor:
   ```

@@ -1,6 +1,6 @@
 raspi_temp_datalogger
 =====================
-This is an lite temperature datalogger for the Raspberrypi, it works with the Dalla ds1820 onwire Sensors.
+This is an lite temperature datalogger for the Raspberrypi, it works with the Dalla ds1820 OnWire Sensors.
 
 Hardware
 --------------
@@ -54,3 +54,6 @@ Look if the Modul ist already loaded:
   ```
   
  t=18437 means 18,437 Degree Celsius.
+ 
+ The Log Programm
+--------------

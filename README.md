@@ -7,10 +7,11 @@ Configuration of the OneWire KernelModul
 
 Aktivate the Modul:
 ```
-    pi@raspi:~$ sudo modprobe w1_gpio
-    pi@raspi:~$ sudo modprobe w1_therm
+pi@raspi:~$ sudo modprobe w1_gpio
+pi@raspi:~$ sudo modprobe w1_therm
 ```
 Look if the Modul ist already loaded:
+```
    pi@raspberrypi ~ $ lsmod
    Module                  Size  Used by
    w1_therm                2705  0 
@@ -27,10 +28,23 @@ Look if the Modul ist already loaded:
    evdev                   8682  0 
    joydev                  9102  0 
    pi@raspberrypi ~ $ 
- 
+``` 
  -> It look that it is loaded right.
  
  Looking for OneWire temperature Sensors:
+ ```
    pi@raspberrypi ~ $ ls /sys/bus/w1/devices
    10-0008021dad2e  w1_bus_master1
    pi@raspberrypi ~ $
+ ```
+ The Directory which starts with the "10-" is the Sensor.
+ 
+ Read One Sensor:
+  ```
+ pi@raspberrypi ~ $ cat /sys/bus/w1/devices/10-0008021dad2e/w1_slave
+ 25 00 4b 46 ff ff 05 10 5d : crc=5d YES
+ 25 00 4b 46 ff ff 05 10 5d t=18437
+ pi@raspberrypi ~ $ 
+  ```
+  
+ t=18437 means 18,437 Degree Celsius.

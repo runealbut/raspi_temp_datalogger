@@ -57,3 +57,10 @@ Look if the Modul ist already loaded:
  
  The Log Programm
 --------------
+
+compile the prgram with make and run it with:
+  ```
+ pi@raspberrypi ~ $ nohup raspi_temp_datalogger > logdata.csv &
+   ```
+   
+The nohup output can be used in MsExel, LibreCalc, OoCalc or so on ...

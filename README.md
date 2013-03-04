@@ -1,6 +1,6 @@
 raspi_temp_datalogger
 =====================
-This is an lite temperature datalogger for the Raspberrypi, it works with the Dalla ds1820 OnWire Sensors.
+This is an lite temperature datalogger for the Raspberrypi, it works with the Dalla ds1820 OnWire Sensors. Its tested with 3 Sensors, but it might be work with more than 3 ...
 
 Hardware
 --------------
@@ -58,7 +58,7 @@ Look if the Modul ist already loaded:
  The Log Programm
 --------------
 
-compile the prgram with make and run it with:
+compile the prgramm with make and run it with:
   ```
  pi@raspberrypi ~ $ nohup raspi_temp_datalogger > logdata.csv &
    ```

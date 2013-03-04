@@ -42,15 +42,7 @@ Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
  * http://wiki.laub-home.de/wiki/Raspberry_Pi_Sensoren_auslesen#Anschlie.C3.9Fen_des_Temperatur_Sensors
  */
 
-void get_dat_clock()
-{
-            struct tm *tmp;
-    time_t s;
-        s = time(NULL);
-        tmp = localtime(&s);
-        printf("Uhrzeit: %d:%0d:%d\n",tmp->tm_hour,tmp->tm_min,tmp->tm_sec);
-        printf("Datum: %d.%d.%d\n", tmp->tm_mday, tmp->tm_mon+1, tmp->tm_mon+1, tmp->tm_year+1900);
-}
+
 
 
 int main()

@@ -5,7 +5,7 @@ This is an lite temperature datalogger for the Raspberrypi, it works with the Da
 Hardware
 --------------
 The One Wire Data Line is Conected to GPIO4 (P1.7).
-Data is conected to VCC with an Pullup-Resistor.
+Data is conected to VCC with an Pullup-Resistor(4k7).
 
 
 Configuration of the OneWire KernelModul

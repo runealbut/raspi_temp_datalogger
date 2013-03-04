@@ -6,9 +6,10 @@ Configuration of the OneWire KernelModul
 --------------
 
 Aktivate the Modul:
+```
     pi@raspi:~$ sudo modprobe w1_gpio
     pi@raspi:~$ sudo modprobe w1_therm
-
+```
 Look if the Modul ist already loaded:
    pi@raspberrypi ~ $ lsmod
    Module                  Size  Used by
